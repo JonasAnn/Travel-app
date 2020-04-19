@@ -17,7 +17,7 @@ img{
 } 
 
 .btn{
-    background-color:#000 ;
+    background-color:#000;
     padding: 9px 20px;
     border: 0;
     color: #fff;
@@ -31,8 +31,11 @@ img{
 }
 
 @media only screen and (max-width: 768px) {
-body,
-html{
+   body,
+   html{
    font-size: 12px;
   }
+  .btn{
+   padding: 14px 27px;
+   }
 }
