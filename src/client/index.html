@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Travel App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">    
+<link rel="stylesheet" href="../client/styles/footer.css">
+        <link rel="stylesheet" href="../client/styles/header.css">
+        <link rel="stylesheet" href="../client/styles/main.css">
+        <link rel="stylesheet" href="../client/styles/general.css">
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="logo_div">
+        <img src="https://image.flaticon.com/icons/svg/776/776568.svg" alt="Logo" class="logo">
+    </div>
+    <div class="header-text-div">
+        <h1>
+            Travel <span>Together</span>
+        </h1>
+    </div>
+</header>
+
+<!-- Main -->
+<main>
+    <section>
+        <div class="form">
+        <form id="form1">
+        <label for="destination">Travel Destination:
+            <input type="text" id="destination" placeholder="Tell us your destination" required>
+        </label>
+        <label for="date">Date of Departure:
+            <input type="date" id="date" name="date" required>
+        </label>
+
+        <!-- TODO: submit input-->
+         <button type="submit" form="form1" value="Submit" class="btn">Submit</button>
+        </form>
+    </section>
+    <hr>
+    <section>
+        <div class="log">
+            <h5 id="destination-log">Destination Log</h5>
+
+            <!-- TODO: add destinations -->
+            <ul>
+               <li class="log-list">
+                   <div class="log-list-image">
+                       <img src="../client/fungi.jpg" alt="destination image" class="log-image">
+                   </div>
+                   <div class="log-list-text">
+                       <h6 id="destination-name">London</h6>
+                       <div class="destination-weather">
+                           high:hot
+                           low: 20
+                       </div>
+                       </div>
+                       <div>
+                        <button type="submit" class="btn btn-delete" value="Submit">Delete</button> 
+                       </div>
+                   </div>
+               </li> 
+            </ul>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer>
+    <div class="contacts">
+        <div>
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <p>dummymail@gmail.com</p>
+        </div>
+        <div>
+            <i class="fa fa-phone-square" aria-hidden="true"></i>
+            <p>231-334-556-099</p>
+        </div>
+    </div>
+    <div class="about">
+        <p>Created by Ifeoma</p>
+    </div>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>

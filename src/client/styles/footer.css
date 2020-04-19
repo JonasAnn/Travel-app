@@ -1,0 +1,30 @@
+/* Footer style */
+footer{
+    background-color: azure;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+   
+}
+
+.contacts{
+    margin: 0 2em;
+    color: black;
+}
+
+.contacts p{
+    display: inline-block;
+
+}
+
+.about{
+    margin: 0 2em;
+       
+}
+
+.about p{
+    color:rgb(24,90,157);
+    font-family: 'Satisfy', cursive;
+    font-size: 1.6em;
+    font-weight: 500; 
+}
