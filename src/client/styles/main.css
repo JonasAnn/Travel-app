@@ -91,6 +91,9 @@ ul{
          display: block;
          margin: auto;
      }
+    label{
+        margin: .7em;
+     }
      .log{
         width: 70%;
      }

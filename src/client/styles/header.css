@@ -37,4 +37,7 @@ header{
     .logo_div{
         width: 4em;
     }
+    .header-text-div{
+        font-size: 0.8em;
+    }
 }
