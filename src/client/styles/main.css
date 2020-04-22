@@ -38,9 +38,9 @@ input{
     margin: 0;
 }
 
-.log-list{
+.log-lists{
     display: flex;
-    margin: 0 35px 0 0;
+    margin: 0 35px 1rem 0;
     border-radius: 10px;
     border: 1px solid #fff;
     justify-content: space-between;
@@ -60,7 +60,7 @@ input{
 }
 .log-list-text{
    color: #000;
-    margin: 0 3em 0 0;
+    margin: 0 1em 0 1em;
     padding: 1em 0 0 0;
     width: 40%;
 }
@@ -77,10 +77,11 @@ input{
 .btn-delete{
     margin: 1.5em 0 0 0;
 }
-
-ul{
-    display: none;
+.log-list-text p {
+    margin: 1px;
+    padding: 0;
 }
+
 @media only screen and (max-width: 768px) {
     .form{ 
         width: 100%;
@@ -97,7 +98,7 @@ ul{
      .log{
         width: 70%;
      }
-     .log-list{
+     .log-lists{
         padding: 4px 0;
         flex-direction: column;
      }

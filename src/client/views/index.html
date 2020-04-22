@@ -4,16 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Travel App</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">    
-<link rel="stylesheet" href="../client/styles/footer.css">
-        <link rel="stylesheet" href="../client/styles/header.css">
-        <link rel="stylesheet" href="../client/styles/main.css">
-        <link rel="stylesheet" href="../client/styles/general.css">
+<link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">  
 </head>
 <body>
-
+    
 <!-- Header -->
 <header>
     <div class="logo_div">
@@ -39,7 +34,7 @@
         </label>
 
         <!-- TODO: submit input-->
-         <button type="submit" form="form1" value="Submit" class="btn">Submit</button>
+         <button type="submit" form="form1" value="Submit" id="submit-btn" class="btn">Submit</button>
         </form>
     </section>
     <hr>
@@ -48,24 +43,9 @@
             <h5 id="destination-log">Destination Log</h5>
 
             <!-- TODO: add destinations -->
-            <ul>
-               <li class="log-list">
-                   <div class="log-list-image">
-                       <img src="../client/fungi.jpg" alt="destination image" class="log-image">
-                   </div>
-                   <div class="log-list-text">
-                       <h6 id="destination-name">London</h6>
-                       <div class="destination-weather">
-                           high:hot
-                           low: 20
-                       </div>
-                       </div>
-                       <div>
-                        <button type="submit" class="btn btn-delete" value="Submit">Delete</button> 
-                       </div>
-                   </div>
-               </li> 
-            </ul>
+            <ul class="log-list" >
+             
+            </ul> 
         </div>
     </section>
 </main>
@@ -87,8 +67,10 @@
     </div>
 </footer>
 
-<script src="../client/js/apps.js"></script>
+<script src="../js/app.js"></script>
 
-<script src="../client/js/app.js"></script>
+<script src="../js/promiseHandler.js"></script>
+
+<script src="../../../dist/main.js"></script>  
 </body>
 </html>
