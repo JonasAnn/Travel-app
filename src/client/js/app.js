@@ -1,76 +1,145 @@
-// Personal API Key for Geonames API
-const geoURL = 'http://api.geonames.org/searchJSON?q=';
-const username = '&maxRows=1&username=ann05';
+// VARIABLES
 
-// Personal API Key for Weather API
-const weatherURL = 'https://api.weatherbit.io/v2.0/forecast/hourly?';
-const weatherkey = '9e69ab7c49dd4bf0983bb7dd11807fbb';
+const result = document.querySelector("#result");
+const planner = document.querySelector("#planner");
+const addTripButton = document.querySelector(".map__link");
+const printButton = document.querySelector("#save");
+const deleteButton = document.querySelector("#delete");
+const form = document.querySelector("#form");
+const leavingFrom = document.querySelector('input[name="from"]');
+const goingTo = document.querySelector('input[name="to"]');
+const depDate = document.querySelector('input[name="date"]');
+const geoNamesURL = 'http://api.geonames.org/searchJSON?q=';
+const username = "timetotravel";
+const timestampNow = (Date.now()) / 1000;
+const darkAPIURL = "https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/";
+const darkAPIkey = "841a9888f38f0d5458c1f32b892d2d1b";
+const pixabayAPIURL = "https://pixabay.com/api/?key=";
+const pixabayAPIkey = "13947861-82731bd440ece605a78d76de8";
 
-// Personal API Key for PixabayAPI
-const pixaURL = 'https://pixabay.com/api/?';
-const pixakey = '1990176-9b48d8bf4635bf1c581022006';
+// EVENT LISTENERS
 
-//Grab UI
-const destination = document.querySelector('#destination');
-const date = document.querySelector('#date');
-const submit = document.querySelector('#submit-btn');
-const destinationLog = document.querySelector('.log-list');
-
-//from submit listen
-submit.addEventListener('click', submitLog);
-
-export function submitLog(e){
-    e.preventDefault()
-    // if(destination.value ==='')
-    // {
-    //     alert('Add destination');
-    //     destinationLog.style.display='none';
-    //  }else{
-    //     destinationLog.style.display='block';
-    //  }
-
-    //Get input values
-    const location = destination.value;
-   
-    
-    //Set Date
-    const startDate =    format(new Date(date.value).getTime(), 'yyyy-MM-dd:mm');
-    const endDate = format(new Date(date.value).getTime(), 'yyyy-MM-dd:HH');
-
-//Get longitude and latitude
-    getLat(geoURL,username,location)
-
-    //Get Weather Details
-    .then(function(data) {
-        const geoLatit = data.geonames[0].lat;
-        const geoLongi = data.geonames[0].lng;
-        const geoCountry = data.geonames[0].countryName;
-        const cordinates = `&lat=${geoLatit}&lon=${geoLongi}`;
-      
-   getWeather(weatherURL,weatherkey,cordinates,startDate,endDate)
-   .then(function(req){
-    
-    postData('/add',{weather:req.data[0].weather.description,
-    temperature:req.data[0].temp,
-    windspeed:req.data[0].wind_spd})
-   })
-   pixaBay(pixaURL,pixakey,location)
-   .then(function (newImage){
-       postData('/add',{imageURL:newImage.hits[0].largeImageURL})
+// add trip button
+const addTripEvList = addTripButton.addEventListener('click', function (e) {
+  e.preventDefault();
+  planner.scrollIntoView({ behavior: 'smooth' });
 })
-    })  
- 
-   //update UI
-   .then(function(res){updateUX('/all')});
-     
+// form submit
+form.addEventListener('submit', addTrip);
+// print button
+printButton.addEventListener('click', function (e) {
+  window.print();
+  location.reload();
+});
+// delete button
+deleteButton.addEventListener('click', function (e) {
+  form.reset();
+  result.classList.add("invisible");
+  location.reload();
+})
+
+// FUNCTIONS 
+
+// Function called when form is submitted
+export function addTrip(e) {
+  e.preventDefault();
+  //Acquiring and storing user trip data
+  const leavingFromText = leavingFrom.value;
+  const goingToText = goingTo.value;
+  const depDateText = depDate.value;
+  const timestamp = (new Date(depDateText).getTime()) / 1000;
+
+  // function checkInput to validate input 
+  Client.checkInput(leavingFromText, goingToText);
+
+  getCityInfo(geoNamesURL, goingToText, username)
+    .then((cityData) => {
+      const cityLat = cityData.geonames[0].lat;
+      const cityLong = cityData.geonames[0].lng;
+      const country = cityData.geonames[0].countryName;
+      const weatherData = getWeather(cityLat, cityLong, country, timestamp)
+      return weatherData;
+    })
+    .then((weatherData) => {
+      const daysLeft = Math.round((timestamp - timestampNow) / 86400);
+      const userData = postData('http://localhost:5500/add', { leavingFromText, goingToText, depDateText, weather: weatherData.currently.temperature, summary: weatherData.currently.summary, daysLeft });
+      return userData;
+    }).then((userData) => {
+      updateUI(userData);
+    })
 }
 
-//Delete with Delet-Button
-export function removeItem(e){
+//function getCityInfo to get city information from Geonames (latitude, longitude, country)
 
-    e.preventDefault();
+export const getCityInfo = async (geoNamesURL, goingToText, username) => {
+  // res equals to the result of fetch function
+  const res = await fetch(geoNamesURL + goingToText + "&maxRows=10&" + "username=" + username);
+  try {
+    const cityData = await res.json();
+    return cityData;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 
-    if(e.target.classList.contains('btn-delete')){
-           e.target.parentElement.parentElement.remove();
-    }
- }
+// function getWeather to get weather information from Dark Sky API 
+
+export const getWeather = async (cityLat, cityLong, country, timestamp) => {
+  const req = await fetch(darkAPIURL + "/" + darkAPIkey + "/" + cityLat + "," + cityLong + "," + timestamp + "?exclude=minutely,hourly,daily,flags");
+  try {
+    const weatherData = await req.json();
+    return weatherData;
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
+// Function postData to POST data to our local server
+export const postData = async (url = '', data = {}) => {
+  const req = await fetch(url, {
+    method: "POST",
+    credentials: "same-origin",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8"
+    },
+    body: JSON.stringify({
+      depCity: data.leavingFromText,
+      arrCity: data.goingToText,
+      depDate: data.depDateText,
+      weather: data.weather,
+      summary: data.summary,
+      daysLeft: data.daysLeft
+    })
+  })
+  try {
+    const userData = await req.json();
+    return userData;
+  } catch (error) {
+    console.log("error", error);
+  }
+}
+
+// Function update UI that reveals the results page with updated trip information including fetched image of the destination
+
+export const updateUI = async (userData) => {
+  result.classList.remove("invisible");
+  result.scrollIntoView({ behavior: "smooth" });
+
+  const res = await fetch(pixabayAPIURL + pixabayAPIkey + "&q=" + userData.arrCity + "+city&image_type=photo");
+
+  try {
+    const imageLink = await res.json();
+    const dateSplit = userData.depDate.split("-").reverse().join(" / ");
+    document.querySelector("#city").innerHTML = userData.arrCity;
+    document.querySelector("#date").innerHTML = dateSplit;
+    document.querySelector("#days").innerHTML = userData.daysLeft;
+    document.querySelector("#summary").innerHTML = userData.summary;
+    document.querySelector("#temp").innerHTML = userData.weather;
+    document.querySelector("#fromPixabay").setAttribute('src', imageLink.hits[0].webformatURL);
+  }
+  catch (error) {
+    console.log("error", error);
+  }
+}
+
+export { addTripEvList }

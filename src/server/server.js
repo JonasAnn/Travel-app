@@ -1,56 +1,43 @@
-// Setup empty JS object to act as endpoint for all routes
-data=[];
-
+var path = require('path');
 const express = require('express');
-
-// Start up an instance of app
+const bodyParser = require('body-parser');
 const app = express();
 
-//configure express to use mildware
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended:false }));
+// Endpoint for all routes
+let projectData = {};
+
+// BodyParser config
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
+app.use(express.static('dist'));
 
-// Initialize the main project folder
-app.use(express.static('src/client'))
-
-
+//Get route
 app.get('/', function (req, res) {
-    res.sendFile('/client/views/index.html', { root: __dirname + '/..' })
+  res.sendFile('dist/index.html')
 })
 
-//server setup
-const port = 3030;
+// Post Route
+app.post('/add', addInfo);
+
+function addInfo(req, res) {
+  projectData['depCity'] = req.body.depCity;
+  projectData['arrCity'] = req.body.arrCity;
+  projectData['depDate'] = req.body.depDate;
+  projectData['weather'] = req.body.weather;
+  projectData['summary'] = req.body.summary;
+  projectData['daysLeft'] = req.body.daysLeft;
+  res.send(projectData);
+}
+
+// Setup Server
+
+const port = 5500;
 const server = app.listen(port, listening);
 
-// Callback to debug
-function listening(){
-    console.log(`running on ${port}`);
+function listening() {
+  console.log(`running on localhost: ${port}`);
 };
-
-//post weather&image to end-point
-app.post('/add', addWeather);
-
-function addWeather(req,res){
-    weatherEntry = {
-        weather:req.body.weather, 
-        windspeed:req.body.windspeed,
-        temperature:req.body.temperature,
-        imageURL:req.body.imageURL
- }
-    data.unshift(weatherEntry);
-    console.log(data);
-}
-
-
-//get response to ui update
-app.get('/all', getAllData);
-
-function getAllData(req,res){
-    res.send(data);
-    console.log(data);
-}

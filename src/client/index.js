@@ -1,11 +1,14 @@
-import { submitLog } from './js/app'
-import { removeItem } from './js/app'
-import { getLat } from './js/promiseHandler'
-import { getWeather } from './js/promiseHandler'
-import { pixaBay } from './js/promiseHandler'
-import { format} from './js/promiseHandler'
-import { updateUX } from './js/promiseHandler'
+import { addTrip } from "./js/app.js"
+import { checkInput } from "./js/inputCheck.js"
+import { addTripEvList } from "./js/app.js"
+import './styles/main.scss'
+import '@fortawesome/fontawesome-free/js/all'
+import './views/img/background.jpg'
+import './views/img/logo.png'
+import './views/img/method-draw-image.png'
+import './views/img/planet-earth.png'
 
-console.log(removeItem);
+export { addTrip }
+export { checkInput }
+export { addTripEvList }
 
-alert("I EXIST")
