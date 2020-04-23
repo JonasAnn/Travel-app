@@ -16,7 +16,8 @@ To build I followed the following steps, creating:
 * Set up async requests to fetch destination image and weather, based on user input, obtained from when the form is submitted by the user
 * Refactored code, installed plugins to minify CSS and ran testing with JEST 
 
-### Result 
-![About Page](https://github.com/tem-nik/Project-Previews/blob/master/Time-to-Travel-About.png)
-![About Page](https://github.com/tem-nik/Project-Previews/blob/master/Time-to-Travel-Planner.png)
-![About Page](https://github.com/tem-nik/Project-Previews/blob/master/Time-to-Travel-Result.png)
+### Project Dependencies
+
+The ‘cors’ package should be installed in the project from the command line, required in the project file server.js, and the instance of the app should be setup to use cors().+
+
+The body-parser package should be installed and included in the project.
